@@ -1,0 +1,73 @@
+---
+import { fetchPosts } from '../../utils/fetchPosts.jsx'; // Import the fetchPosts function
+import '../../styles/global.css'; 
+
+// Use getStaticPaths to generate the static paths for each post
+export async function getStaticPaths() {
+  // Fetch all posts
+  const posts = await fetchPosts();
+
+  // Generate a static path for each post using its id
+  return posts.map((post) => ({
+    params: { id: post.id.toString() }, // Ensure the id is a string for dynamic routes
+  }));
+}
+
+// Get the post id from Astro props
+const { id } = Astro.params;
+const posts = await fetchPosts();
+
+// Find the post that matches the provided id
+const post = posts.find((post) => post.id.toString() === id);
+
+if (!post) {
+  throw new Error(`Post with ID "${id}" not found`);
+}
+---
+
+<div class="container mx-auto px-6 py-12 max-w-7xl">
+  <!-- Post Title -->
+  <h2 class="text-4xl font-extrabold text-center text-yellow-500 mb-10 tracking-tight">
+    {post.titulo}
+  </h2>
+
+  <!-- Post Content -->
+  <div class="flex flex-col lg:flex-row gap-12 items-center">
+    <!-- Post Image -->
+    <div class="w-full lg:w-1/3 rounded-lg shadow-lg overflow-hidden">
+      <img
+        src={post.image}
+        alt={post.titulo}
+        class="w-full h-64 lg:h-auto object-cover transition-transform transform hover:scale-105 duration-300"
+      />
+    </div>
+
+    <!-- Post Details -->
+    <div class="lg:w-2/3 space-y-6 text-gray-200">
+      <p class="text-lg text-gray-400">Instructor: <span class="text-white">{post.instructor}</span></p>
+      <p class="text-lg text-gray-400">Level: <span class="text-white">{post.nivel}</span></p>
+      <p class="text-lg text-gray-400">Duration: <span class="text-white">{post.duracion}</span></p>
+
+      <div class="bg-gray-800 p-6 rounded-lg">
+        <h3 class="text-xl font-semibold text-yellow-400 mb-4">Course Syllabus</h3>
+        <p class="text-base">{post.temario}</p>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-white">{post.precio} USD</p>
+
+      <div class="flex gap-4 mt-6">
+        <a
+          href="../../../"
+          class="inline-block px-6 py-3 bg-yellow-400 text-gray-800 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition duration-200 shadow-md hover:shadow-lg"
+        >
+          Back to Courses
+        </a>
+        <button
+          class="inline-block px-6 py-3 bg-green-500 text-white rounded-lg text-lg font-semibold hover:bg-green-600 transition duration-200 shadow-md hover:shadow-lg"
+        >
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
