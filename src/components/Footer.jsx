@@ -1,34 +1,34 @@
-import React from 'react';
+import React from "react";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-purple-600 to-blue-600 py-12 mt-12">
-      <div className="container mx-auto px-6 text-center text-white">
-        {/* Footer Logo or Main Text */}
-        <div className="mb-8">
-          <span className="text-4xl font-bold">Web Development Courses</span>
+    <footer className="relative w-full bg-gradient-to-r from-indigo-700 to-purple-800 py-16 text-white text-center">
+      {/* Footer basico */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+
+
+      <div className="relative z-10 container mx-auto px-8">
+        <div className="mb-10">
+          <span className="text-5xl font-extrabold tracking-wide text-yellow-400 drop-shadow-lg">
+            Cursos de Desarrollo Web
+          </span>
         </div>
 
-        {/* Footer Links */}
-        <div className="flex justify-center space-x-8 mb-8">
-          <a href="/" className="text-white hover:text-gray-200 text-xl font-semibold transition duration-300">
-            Home
-          </a>
-          <a href="/courses" className="text-white hover:text-gray-200 text-xl font-semibold transition duration-300">
-            Courses
-          </a>
-          <a href="/about" className="text-white hover:text-gray-200 text-xl font-semibold transition duration-300">
-            About
-          </a>
-          <a href="/contact" className="text-white hover:text-gray-200 text-xl font-semibold transition duration-300">
-            Contact
-          </a>
+      
+        <div className="flex justify-center gap-6 mb-10">
+          {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn].map((Icon, index) => (
+            <a
+              key={index}
+              href="#"
+              className="p-4 bg-white/10 rounded-full transition transform hover:scale-110 hover:bg-yellow-400"
+            >
+              <Icon className="text-2xl text-white transition hover:text-gray-900" />
+            </a>
+          ))}
         </div>
 
-        {/* Footer Bottom Text */}
-        <div className="mt-8 text-lg">
-          <p>&copy; 2025 CourseApp. All rights reserved.</p>
-        </div>
+      
       </div>
     </footer>
   );

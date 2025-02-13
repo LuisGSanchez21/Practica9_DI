@@ -1,4 +1,3 @@
-// src/components/Login.jsx
 import React, { useState } from 'react';
 import '../styles/global.css';
 
@@ -7,7 +6,6 @@ const Login = () => {
   const [contrasenaInput, setContrasenaInput] = useState('');
 
   const iniciarSesion = async () => {
-    // Fetch user data from Firebase
     const users = await fetch('https://p9luisgil-default-rtdb.europe-west1.firebasedatabase.app/usuarios.json')
       .then((res) => res.json())
       .catch((err) => {
@@ -22,7 +20,7 @@ const Login = () => {
     if (usuarioEncontrado) {
       alert('Login successful!');
       localStorage.setItem('user', JSON.stringify(usuarioEncontrado));
-      window.location.href = '/'; // Redirect to home after login
+      window.location.href = '/';
     } else {
       alert('Incorrect credentials');
     }
@@ -35,7 +33,7 @@ const Login = () => {
 
     alert('Iniciando sesion como invitado');
     localStorage.setItem('user', JSON.stringify(usuarioInvitado));
-    window.location.href = '/'; // Redirect to home after login
+    window.location.href = '/'; 
   }
 
   return (
@@ -67,11 +65,7 @@ const Login = () => {
         className="w-full bg-yellow-500 text-gray-900 py-2 mt-4 rounded-lg font-semibold">
           Continuar como invitado
         </button>
-        <button 
-        onClick={sesionUsuario}
-        className="w-full bg-yellow-500 text-gray-900 py-2 mt-4 rounded-lg font-semibold">
-        Log Out 
-        </button>
+    
       </div>
     </div>
   );

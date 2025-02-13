@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 const Carousel = () => {
   const [destacados, setDestacados] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await fetch('https://p9luisgil-default-rtdb.europe-west1.firebasedatabase.app/cursos.json');
         const posts = await response.json();
-        // Filter the posts to only show those with "destacado: true"
         const destacadosData = Object.values(posts).filter(post => post.destacado === true);
         setDestacados(destacadosData);
       } catch (err) {
@@ -20,52 +20,101 @@ const Carousel = () => {
     fetchPosts();
   }, []);
 
-  // Function to go to previous slide
+  useEffect(() => {
+    if (isAutoPlaying) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % destacados.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [destacados, isAutoPlaying]);
+
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + destacados.length) % destacados.length);
+    setIsAutoPlaying(false);
   };
 
-  // Function to go to next slide
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % destacados.length);
+    setIsAutoPlaying(false);
   };
 
   return (
-    <div className="carousel relative w-full max-w-6xl mx-auto overflow-hidden shadow-lg rounded-lg bg-gray-900">
-      <div className="carousel-inner relative w-full">
-        {destacados.map((post, index) => (
-          <div
-            key={post.id}
-            className={`carousel-item w-full transition-all duration-700 ease-in-out ${index === currentIndex ? 'block' : 'hidden'}`}
-          >
-            <img
-              src={post.image}
-              alt={post.titulo}
-              className="w-full h-96 object-cover rounded-t-lg"
-            />
-            <div className="text-white text-center absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 py-4 px-6 rounded-b-lg">
-              <h3 className="text-3xl font-bold text-yellow-400">{post.titulo}</h3>
-              <p className="mt-2 text-xl">{post.instructor}</p>
-              <p className="mt-1 text-sm">{post.nivel} | {post.duracion}</p>
-              <p className="mt-2 text-lg font-semibold">${post.precio} USD</p>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      <h1 className="text-center text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600 mt-10 mb-6 tracking-wide uppercase drop-shadow-lg">
+        🚀 Cursos Destacados
+      </h1>
 
-      {/* Carousel Controls */}
-      <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 rounded-full p-3 shadow-lg hover:bg-opacity-70 transition"
-      >
-        <span className="text-2xl">&lt;</span>
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white bg-black bg-opacity-50 rounded-full p-3 shadow-lg hover:bg-opacity-70 transition"
-      >
-        <span className="text-2xl">&gt;</span>
-      </button>
+      <div className="relative w-full max-w-4xl mx-auto overflow-hidden shadow-2xl rounded-xl bg-gray-900">
+        <div className="relative w-full flex justify-center items-center">
+          {destacados.length > 0 && (
+            <>
+
+              <div
+                className="w-full h-[500px] flex transition-transform duration-700 ease-in-out transform"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {destacados.map((post, index) => (
+                  <div key={index} className="min-w-full flex-shrink-0 flex flex-col items-center">
+                    <img
+                      src={post.image}
+                      alt={post.titulo}
+                      className="w-full h-[350px] object-cover rounded-t-xl shadow-lg brightness-90 hover:brightness-100 transition"
+                    />
+
+   
+                    <div className="w-full bg-gray-800 p-6 rounded-b-xl text-center text-white">
+                    <a
+                      href={`/courses/${post.id}`}
+                      className="inline-block mt-4 px-4 py-2 bg-yellow-400 text-gray-800 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition duration-200"
+                    >
+                      Ver Detalles
+                    </a>
+                      <h3 className="text-2xl font-bold text-yellow-400">{post.titulo}</h3>
+                      
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+
+              <button
+                onClick={prevSlide}
+                className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white bg-black bg-opacity-60 rounded-full p-3 shadow-md hover:bg-opacity-80 transition-all"
+              >
+                <span className="text-3xl">←</span>
+              </button>
+
+              <button
+                onClick={nextSlide}
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white bg-black bg-opacity-60 rounded-full p-3 shadow-md hover:bg-opacity-80 transition-all"
+              >
+                <span className="text-3xl">→</span>
+              </button>
+              
+
+
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {destacados.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setCurrentIndex(index);
+                      setIsAutoPlaying(false);
+                    }}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      index === currentIndex ? 'bg-yellow-400 scale-110' : 'bg-gray-500'
+                    }`}
+                  ></button>
+            
+                ))}
+              </div>
+              
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

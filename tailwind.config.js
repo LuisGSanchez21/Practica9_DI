@@ -10,11 +10,30 @@ export default {
   ],
   theme: {
     extend: {
-      // Puedes añadir colores, tipografías personalizadas, etc.
+      animation: {
+        fadeInHeader: "fadeInHeader 1s ease-out forwards",
+        fadeInButton: "fadeInButton 1s ease-out forwards",
+        fadeInWelcome: "fadeInWelcome 1s ease-out forwards",
+      },
+      keyframes: {
+        fadeInHeader: {
+          "0%": { opacity: "0", transform: "translateY(-30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeInButton: {
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeInWelcome: {
+          "0%": { opacity: "0", transform: "translateX(-30px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
+        },
+      },
     },
   },
   plugins: [
     // Si quieres plugins como @tailwindcss/typography
   ],
+  
 };
 
