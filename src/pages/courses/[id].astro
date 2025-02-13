@@ -4,13 +4,14 @@ import '../../styles/global.css';
 import CartButton from '../../components/Cart.jsx'; 
 import ModalVideo from '../../components/ModalVideo.jsx'; 
 
-// Fetch the post data based on the ID from Astro params
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const posts = await fetchPosts();
+  
   return posts.map((post) => ({
     params: { id: post.id.toString() },
+    props: { post },
   }));
-}
+};
 
 const { id } = Astro.params;
 const posts = await fetchPosts();
@@ -20,7 +21,6 @@ if (!post) {
   throw new Error(`Post with ID "${id}" not found`);
 }
 
-// Handle the add to cart functionality
 
 ---
 
