@@ -3,7 +3,6 @@ import { fetchPosts } from '../../utils/fetchPosts.jsx';
 import '../../styles/global.css'; 
 import CartButton from '../../components/Cart.jsx'; 
 import ModalVideo from '../../components/ModalVideo.jsx'; 
-
 export const getStaticPaths = async () => {
   const posts = await fetchPosts();
   
@@ -13,9 +12,10 @@ export const getStaticPaths = async () => {
   }));
 };
 
+var { post } = Astro.props;
 const { id } = Astro.params;
 const posts = await fetchPosts();
-const post = posts.find((p) => p.id.toString() === id);
+post = posts.find((p) => p.id.toString() === id);
 
 if (!post) {
   throw new Error(`Post with ID "${id}" not found`);
