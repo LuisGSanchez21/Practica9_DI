@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import '../styles/global.css';
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const Login = () => {
+  const { t } = useTranslation()
   const [usuarioInput, setUsuarioInput] = useState('');
   const [contrasenaInput, setContrasenaInput] = useState('');
 
@@ -63,7 +66,7 @@ const Login = () => {
         <button 
         onClick={sesionUsuario}
         className="w-full bg-yellow-500 text-gray-900 py-2 mt-4 rounded-lg font-semibold">
-          Continuar como invitado
+          {t("continueAsGuest")}
         </button>
     
       </div>

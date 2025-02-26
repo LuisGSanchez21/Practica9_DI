@@ -1,8 +1,10 @@
 ---
 import { fetchPosts } from '../../utils/fetchPosts.jsx'; 
 import '../../styles/global.css'; 
-import CartButton from '../../components/Cart.jsx'; 
-import ModalVideo from '../../components/ModalVideo.jsx'; 
+import i18next from "../../utils/i18n.js";
+import LanguageSelector from "../../components/LanguageSelector.jsx";
+const { t } = i18next;
+
 export const getStaticPaths = async () => {
   const posts = await fetchPosts();
   
@@ -31,12 +33,12 @@ if (!post) {
 
     <div class="p-6">
       <h2 class="text-4xl font-bold text-yellow-400 mb-4">{post.titulo}</h2>
-      <p class="text-lg text-gray-300 mb-2"><strong>Instructor:</strong> {post.instructor}</p>
-      <p class="text-lg text-gray-300 mb-2"><strong>Dificultad:</strong> {post.nivel}</p>
-      <p class="text-lg text-gray-300 mb-2"><strong>Duracion:</strong> {post.duracion}</p>
+      <p class="text-lg text-gray-300 mb-2"><strong>{t("instructor")}:</strong> {post.instructor}</p>
+      <p class="text-lg text-gray-300 mb-2"><strong>{t("dificultad")}:</strong> {post.nivel}</p>
+      <p class="text-lg text-gray-300 mb-2"><strong>{t("duracion")}:</strong> {post.duracion}</p>
 
       <div class="bg-gray-700 p-4 rounded-lg mt-4">
-        <h3 class="text-xl font-semibold text-yellow-400 mb-2">Temario</h3>
+        <h3 class="text-xl font-semibold text-yellow-400 mb-2">{t("temario")}</h3>
         <ul class="list-disc pl-6 text-gray-300 space-y-1">
           {post.temario.map((item, index) => (
             <li key={index}>{item}</li>
@@ -45,7 +47,7 @@ if (!post) {
       </div>
 
       <div class="bg-gray-700 p-4 rounded-lg mt-4">
-        <h3 className="text-xl font-semibold text-yellow-400 mb-2">Opiniones</h3>
+        <h3 className="text-xl font-semibold text-yellow-400 mb-2">{t("opiniones")}</h3>
         <ul className="space-y-3">
           {post.opiniones.map((opinion, index) => (
             <li key={index} className="bg-gray-600 p-3 rounded-lg">
@@ -64,7 +66,7 @@ if (!post) {
      
       <div className="flex justify-between mt-6">
         <a href="../../../" className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-semibold hover:bg-yellow-500 transition duration-200">
-          Volver
+          {t("volver")}
         </a>
       </div>
     </div>

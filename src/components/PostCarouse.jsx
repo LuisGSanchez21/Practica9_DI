@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const Carousel = () => {
+    const { t } = useTranslation()
   const [destacados, setDestacados] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -43,7 +46,7 @@ const Carousel = () => {
   return (
     <div>
       <h1 className="text-center text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600 mt-10 mb-6 tracking-wide uppercase drop-shadow-lg">
-        🚀 Cursos Destacados
+        🚀 {t("importantCoruses")}
       </h1>
 
       <div className="relative w-full max-w-4xl mx-auto overflow-hidden shadow-2xl rounded-xl bg-gray-900">
@@ -69,7 +72,7 @@ const Carousel = () => {
                       href={`/courses/${post.id}`}
                       className="inline-block mt-4 px-4 py-2 bg-yellow-400 text-gray-800 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition duration-200"
                     >
-                      Ver Detalles
+                      {t("seeDetails")}
                     </a>
                       <h3 className="text-2xl font-bold text-yellow-400">{post.titulo}</h3>
                       

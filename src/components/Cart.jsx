@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const CartButton = () => {
+  const { t } = useTranslation()
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
 
@@ -84,10 +86,9 @@ const CartButton = () => {
         onClick={() => setShowCart(true)}
         className="fixed text-black top-4 right-4 px-8 py-4 bg-white/20 backdrop-blur-lg text-2xl font-semibold rounded-full border border-black hover:bg-white/30 transition-transform transform hover:scale-105 z-50"
       >
-        🛒 Carrito({cartItems.length})
+        🛒 {t("cart")}({cartItems.length})
       </button>
 
-      {/* Modal con los componetes del carrito, boton de cierre, quitar y añadir*/}
       {showCart && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-80 relative">
@@ -98,10 +99,10 @@ const CartButton = () => {
               ✖
             </button>
 
-            <h2 className="text-xl font-bold text-yellow-400 mb-4">🛒 Carrito</h2>
+            <h2 className="text-xl font-bold text-yellow-400 mb-4">🛒 {t("cart")}</h2>
 
             {cartItems.length === 0 ? (
-              <p className="text-gray-400">Carrito Vacío</p>
+              <p className="text-gray-400">{t("emptyCart")}</p>
             ) : (
               <ul className="space-y-2">
                 {cartItems.map((item) => (
@@ -126,7 +127,7 @@ const CartButton = () => {
                 onClick={processPayment}
                 className="mt-4 w-full p-2 bg-yellow-500 text-black font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition"
               >
-                Pagar
+                {t("pay")}
               </button>
             )}
           </div>

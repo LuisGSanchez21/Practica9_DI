@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const Modal = ({ videoUrl, triggerText }) => {
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -16,7 +19,6 @@ const Modal = ({ videoUrl, triggerText }) => {
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
           <div className="relative w-full max-w-6xl p-4">
-            {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 text-white text-3xl font-bold hover:text-gray-300 transition"

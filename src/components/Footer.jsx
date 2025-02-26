@@ -1,17 +1,21 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const Footer = () => {
+  const { t } = useTranslation()
+  
   return (
     <footer className="relative w-full bg-gradient-to-r from-indigo-700 to-purple-800 py-16 text-white text-center">
-      {/* Footer basico */}
+
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
 
       <div className="relative z-10 container mx-auto px-8">
         <div className="mb-10">
           <span className="text-5xl font-extrabold tracking-wide text-yellow-400 drop-shadow-lg">
-            Cursos de Desarrollo Web
+            {t("title")}
           </span>
         </div>
 

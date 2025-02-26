@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { fetchPosts } from '../utils/fetchPosts';
+import { useTranslation } from "react-i18next";
+import '../utils/i18n.js';
 
 const SearchDialog = () => {
+    const { t } = useTranslation()
   const [posts, setPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -46,7 +49,7 @@ const SearchDialog = () => {
   onClick={openDialog}
   className="px-8 py-4 bg-white/20 backdrop-blur-lg text-white text-2xl font-semibold rounded-full border border-white hover:bg-white/30 transition-transform transform hover:scale-105"
 >
-    Buscar Cursos
+    {t("search")}
 </button>
 
 
@@ -62,7 +65,7 @@ const SearchDialog = () => {
               id="searchDialogTitle"
               className="text-3xl text-white mb-4"
             >
-              Buscar Cursos
+             {t("search")}
             </h2>
 
             <input
@@ -87,7 +90,7 @@ const SearchDialog = () => {
                   </a>
                 ))
               ) : (
-                <p className="text-gray-400">Sin resultados</p>
+                <p className="text-gray-400">{t("noResults")}</p>
               )}
             </div>
 
@@ -96,14 +99,14 @@ const SearchDialog = () => {
               onClick={clearSearch}
               className="mt-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-200"
             >
-              Limpiar
+              {t("clean")}
             </button>
 
             <button
               onClick={closeDialog}
               className="mt-6 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200"
             >
-              Cerrar
+              {t("close")}
             </button>
           </div>
         </div>
