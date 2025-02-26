@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const languages = [
@@ -9,8 +9,22 @@ const languages = [
 const LanguageSelector = () => {
   const { i18n } = useTranslation(); 
 
+  // Load language from localStorage when the component mounts
+  useEffect(() => {
+    const storedLang = localStorage.getItem("language");
+    if (storedLang && storedLang !== i18n.language) {
+      i18n.changeLanguage(storedLang);
+    }
+  }, []);
+
+  // Function to change language and store in localStorage
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng);
+  };
+
   return (
-    <div className=" mt-12 bg-white/20 backdrop-blur-lg px-10 py-4 rounded-full inline-block shadow-lg animate-fadeInWelcome">
+    <div className="mt-12 bg-white/20 backdrop-blur-lg px-10 py-4 rounded-full inline-block shadow-lg animate-fadeInWelcome">
       {languages.map((lng) => (
         <button
           key={lng.code}
@@ -20,7 +34,7 @@ const LanguageSelector = () => {
                 ? "bg-white text-indigo-700 shadow-md"
                 : "bg-indigo-700 text-white hover:bg-indigo-500"
             }`}
-          onClick={() => i18n.changeLanguage(lng.code)}
+          onClick={() => changeLanguage(lng.code)}
         >
           <span className="text-xl">{lng.flag}</span> {lng.name}
         </button>
