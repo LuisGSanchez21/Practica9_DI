@@ -158,7 +158,7 @@ const CourseList = () =>
                   </p>
 
                   <a
-                    href={`/courses/${post.id}`}
+                    href={`Practica9_DI/courses/${post.id}`}
                     className="inline-block mt-4 px-4 py-2 bg-yellow-400 text-gray-800 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition duration-200"
                   >
                     {t("seeDetails")}
