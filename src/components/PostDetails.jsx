@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import '../utils/i18n.js';
 
+const exchangeRates = {
+  EUR: 1,
+  USD: 1.1,  // Example conversion rate
+  GBP: 0.85, // Example conversion rate
+};
+
 const PostDetails = ({ post }) => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
+  const [currency, setCurrency] = useState("EUR");
+
+  useEffect(() => {
+    const savedCurrency = localStorage.getItem("currency");
+    if (savedCurrency) setCurrency(savedCurrency);
+  }, []);
+
+  const convertPrice = (price) => {
+    return (price * (exchangeRates[currency] || 1)).toFixed(2);
+  };
+
+  const getCurrencySymbol = (currency) => {
+    switch (currency) {
+      case "USD":
+        return "$";
+      case "GBP":
+        return "£";
+      case "EUR":
+      default:
+        return "€";
+    }
+  };
 
   return (
-    
     <div className="flex justify-center items-center min-h-screen bg-gray-900 p-6">
       <div className="bg-gray-800 text-white max-w-4xl rounded-lg shadow-lg overflow-hidden">
         <img src={post.image} alt={post.titulo} className="w-full h-64 object-cover" />
@@ -41,10 +68,12 @@ const PostDetails = ({ post }) => {
             </ul>
           </div>
 
-          <p className="text-2xl font-bold text-yellow-400 mt-4">${post.precio} USD</p>
+          <p className="text-2xl font-bold text-yellow-400 mt-4">
+            {getCurrencySymbol(currency)} {convertPrice(post.precio)}
+          </p>
 
           <div className="flex justify-between mt-6">
-            <a href="../../../" className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-semibold hover:bg-yellow-500 transition duration-200">
+            <a href="../../" className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-lg font-semibold hover:bg-yellow-500 transition duration-200">
               {t("volver")}
             </a>
           </div>
