@@ -12,10 +12,18 @@ const PostDetails = ({ post }) => {
   const { t } = useTranslation();
   const [currency, setCurrency] = useState("EUR");
 
-  useEffect(() => {
-    const savedCurrency = localStorage.getItem("currency");
-    if (savedCurrency) setCurrency(savedCurrency);
-  }, []);
+  
+    useEffect(() => {
+     
+      if (typeof window !== 'undefined') {
+        const savedCurrency = localStorage.getItem('currency');
+        if (savedCurrency) {
+          setCurrency(savedCurrency);
+        } else {
+          setCurrency('EUR');
+        }
+      }
+    }, []); 
 
   const convertPrice = (price) => {
     return (price * (exchangeRates[currency] || 1)).toFixed(2);
