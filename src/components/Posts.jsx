@@ -48,7 +48,6 @@ const CourseList = () =>
 
     fetchPosts();
 
-    // Retrieve currency preference from localStorage
     const savedCurrency = localStorage.getItem("currency");
     if (savedCurrency) {
       setCurrency(savedCurrency);

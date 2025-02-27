@@ -4,7 +4,7 @@ import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   output: 'static',
-  base: '/Practica9_DI/',
+  base: '',
   integrations: [
     
     react(),
