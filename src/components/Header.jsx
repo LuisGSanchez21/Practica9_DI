@@ -32,7 +32,7 @@ const Header = () => {
 
           <div className="mt-8 flex flex-wrap justify-center gap-6">
             <a
-              href="/login"
+              href="./login"
               className="px-8 py-4 bg-white/20 backdrop-blur-lg text-white text-2xl font-semibold rounded-full border border-white hover:bg-white/30 transition-transform transform hover:scale-105 animate-fadeInButton"
             >
                 {t("login")} 

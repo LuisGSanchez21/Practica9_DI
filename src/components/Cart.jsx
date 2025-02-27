@@ -1,84 +1,99 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import '../utils/i18n.js';
+import "../utils/i18n.js";
+
+const exchangeRates = {
+  EUR: 1,
+  USD: 1.1,
+  GBP: 0.85,
+};
 
 const CartButton = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [currency, setCurrency] = useState("EUR");
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
+
+    const savedCurrency = localStorage.getItem("currency");
+    if (savedCurrency) setCurrency(savedCurrency);
   }, []);
 
-  //Quitar del carro
+  const getCurrencySymbol = (currency) => {
+    switch (currency) {
+      case "USD":
+        return "$";
+      case "GBP":
+        return "£";
+      case "EUR":
+      default:
+        return "€";
+    }
+  };
+
+  const convertPrice = (price) => {
+    return (price * exchangeRates[currency]).toFixed(2);
+  };
+
   const removeFromCart = (id) => {
     const updatedCart = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  //Procesar pago
   const processPayment = async () => {
     if (cartItems.length === 0) {
       alert("Carrito Vacío.");
       return;
     }
-  
+
     const user = JSON.parse(localStorage.getItem("user"));
-  
     if (!user || user.usuario === "invitado") {
       alert("Inicie sesión para procesar el pago.");
       return;
     }
-  
+
     try {
       const usersData = await fetch(
         "https://p9luisgil-default-rtdb.europe-west1.firebasedatabase.app/usuarios.json"
       ).then((res) => res.json());
-  
-      // Find the user's key in Firebase
+
       const userKey = Object.keys(usersData).find(
         (key) => usersData[key].usuario === user.usuario
       );
-  
+
       if (!userKey) {
-        alert("User not found.");
+        alert("Usuario no encontrado.");
         return;
       }
-  
-      // Variable de cursos comprados por el usuario y de cursos que han sido comprados
+
       const existingComprados = usersData[userKey].comprados || [];
-      const newComprados = [...existingComprados, ...cartItems.map((item) => item.id)];
-  
-      // Crea la nueva clase llamada comprados en el usuario, con el id de cada curso
+      const newComprados = [...new Set([...existingComprados, ...cartItems.map((item) => item.id)])];
+
       await fetch(
         `https://p9luisgil-default-rtdb.europe-west1.firebasedatabase.app/usuarios/${userKey}.json`,
         {
-          method: "PATCH", 
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ comprados: newComprados }),
         }
       );
-  
-      // Actualiza el usuario en localStorage
+
       const updatedUser = { ...user, comprados: newComprados };
       localStorage.setItem("user", JSON.stringify(updatedUser));
-  
-      //Limpiar el carrita
+
       setCartItems([]);
       localStorage.removeItem("cart");
       alert("Pago exitoso!");
       window.location.reload();
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al pagar, intentelo más tarde.");
+      alert("Error al procesar el pago. Inténtelo más tarde.");
     }
   };
-  
-  
-  
 
   return (
     <div>
@@ -109,7 +124,9 @@ const CartButton = () => {
                   <li key={item.id} className="flex justify-between items-center border-b border-gray-700 py-2">
                     <div>
                       <p className="text-lg font-semibold">{item.titulo}</p>
-                      <p className="text-sm text-gray-400">{item.precio} USD</p>
+                      <p className="text-sm text-gray-400">
+                        {getCurrencySymbol(currency)} {convertPrice(item.precio)}
+                      </p>
                     </div>
                     <button
                       onClick={() => removeFromCart(item.id)}
@@ -136,6 +153,5 @@ const CartButton = () => {
     </div>
   );
 };
-
 
 export default CartButton;

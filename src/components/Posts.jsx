@@ -59,6 +59,21 @@ const CourseList = () =>
     localStorage.setItem("currency", newCurrency);
   };
 
+  const handleAddToCart = (post) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    // Check if course is already in the cart
+    if (!cart.some((item) => item.id === post.id)) {
+      cart.push(post);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${post.titulo} added to cart!`);
+      window.location.reload();
+
+    } else {
+      alert(`${post.titulo} is already in the cart.`);
+    }
+  };
+  
   const getCurrencySymbol = (currency) => {
     switch (currency) {
       case "USD": return "$";
