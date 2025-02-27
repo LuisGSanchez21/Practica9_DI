@@ -1,12 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    // Ajusta rutas a tu proyecto Astro
-    "./src/**/*.astro",
-    "./src/**/*.js",
-    "./src/**/*.jsx",
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
+    "./src/**/*.{astro,html,js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
