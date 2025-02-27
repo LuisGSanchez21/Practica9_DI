@@ -62,7 +62,6 @@ const CourseList = () =>
   const handleAddToCart = (post) => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     
-    // Check if course is already in the cart
     if (!cart.some((item) => item.id === post.id)) {
       cart.push(post);
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -173,7 +172,7 @@ const CourseList = () =>
                   </p>
 
                   <a
-                    href={`Practica9_DI/courses/${post.id}`}
+                    href={`courses/${post.id}`}
                     className="inline-block mt-4 px-4 py-2 bg-yellow-400 text-gray-800 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition duration-200"
                   >
                     {t("seeDetails")}
